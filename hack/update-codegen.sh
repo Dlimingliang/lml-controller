@@ -28,14 +28,14 @@ source "${CODEGEN_PKG}/kube_codegen.sh"
 #                  k8s.io/kubernetes. The output-base is needed for the generators to output into the vendor dir
 #                  instead of the $GOPATH directly. For normal projects this can be dropped.
 
-#kube::codegen::gen_helpers \
-#    --input-pkg-root k8s.io/sample-controller/pkg/apis \
-#    --output-base "$(dirname "${BASH_SOURCE[0]}")/../../.." \
-#    --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
+kube::codegen::gen_helpers \
+    --input-pkg-root Dlimingliang/lml-controller/pkg/apis \
+    --output-base "$(dirname "${BASH_SOURCE[0]}")/../../.." \
+    --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
 
 kube::codegen::gen_client \
     --with-watch \
-    --input-pkg-root k8s.io/sample-controller/pkg/apis \
-    --output-pkg-root k8s.io/sample-controller/pkg/generated \
+    --input-pkg-root Dlimingliang/lml-controller/pkg/apis \
+    --output-pkg-root Dlimingliang/lml-controller/pkg/generated \
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
