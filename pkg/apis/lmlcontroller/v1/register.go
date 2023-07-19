@@ -1,13 +1,15 @@
 package v1
 
 import (
+	"github.com/Dlimingliang/lml-controller/pkg/apis/lmlcontroller"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 var SchemeGroupVersion = schema.GroupVersion{
-	Group:   "example.com",
+	Group:   lmlcontroller.GroupName,
 	Version: "v1",
 }
 
