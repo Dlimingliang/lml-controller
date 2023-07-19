@@ -20,7 +20,7 @@ set -o pipefail
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 bash "${GOPATH}"/src/github.com/Dlimingliang/code-generator/generate-groups.sh "deepcopy,client,lister,informer" \
-pkg/generated pkg/apis \
+github.com/Dlimingliang/lml-controller/pkg/generated github.com/Dlimingliang/lml-controller/pkg/apis \
 example.com:v1 \
---output-base "${SCRIPT_ROOT}" \
+--output-base "${SCRIPT_ROOT}/../../.." \
 --go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt
