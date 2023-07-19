@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
-
-# Copyright 2017 The Kubernetes Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# code generate old version
 
 #set -o errexit
 #set -o nounset
@@ -21,10 +8,15 @@
 #SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 #bash "${GOPATH}"/src/github.com/Dlimingliang/code-generator/generate-groups.sh "deepcopy,client,lister,informer" \
 #github.com/Dlimingliang/lml-controller/pkg/generated github.com/Dlimingliang/lml-controller/pkg/apis \
-#example.com:v1 \
+#lmlcontroller:v1 \
 #--output-base "${SCRIPT_ROOT}/../../.." \
 #--go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt
 
+# code generate new version
+# generate the code with:
+# --input-pkg-root    以go.mod 里面的module开头, 加pkg目录
+# --output-base       设置到src的上一级, output-base + src + 其他俩个pkg将组成目录
+# --output-pkg-root   作用配置生成目录, 以go.mod 里面的module开头, 加要生成的目录
 
 set -o errexit
 set -o nounset
@@ -33,19 +25,16 @@ set -o pipefail
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 source "${GOPATH}/src/github.com/Dlimingliang/code-generator/kube_codegen.sh"
 
+# deepcopy
 kube::codegen::gen_helpers \
-    # 与go.mod 里面的module相同
     --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
-    # 设置到src的上一级,连接--input-pkg-root 组成目录
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
 
+# clientset、infomers、listers
 kube::codegen::gen_client \
     --with-watch \
-    # 与go.mod 里面的module相同
     --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
-    # 配置生成目录,也以go.mod开头
     --output-pkg-root github.com/Dlimingliang/lml-controller/pkg/generated \
-     # 设置到src的上一级,连接--input-pkg-root 组成目录
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
