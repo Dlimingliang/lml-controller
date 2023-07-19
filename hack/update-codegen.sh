@@ -14,13 +14,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#set -o errexit
+#set -o nounset
+#set -o pipefail
+#
+#SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
+#bash "${GOPATH}"/src/github.com/Dlimingliang/code-generator/generate-groups.sh "deepcopy,client,lister,informer" \
+#github.com/Dlimingliang/lml-controller/pkg/generated github.com/Dlimingliang/lml-controller/pkg/apis \
+#example.com:v1 \
+#--output-base "${SCRIPT_ROOT}/../../.." \
+#--go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt
+
+
 set -o errexit
 set -o nounset
 set -o pipefail
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
-bash "${GOPATH}"/src/github.com/Dlimingliang/code-generator/generate-groups.sh "deepcopy,client,lister,informer" \
-github.com/Dlimingliang/lml-controller/pkg/generated github.com/Dlimingliang/lml-controller/pkg/apis \
-example.com:v1 \
---output-base "${SCRIPT_ROOT}/../../.." \
---go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt
+source "${GOPATH}/src/github.com/Dlimingliang/code-generator/kube_codegen.sh"
+
+kube::codegen::gen_helpers \
+    --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
+    --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
+    --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
+
+kube::codegen::gen_client \
+    --with-watch \
+    --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
+    --output-pkg-root github.com/Dlimingliang/lml-controller/pkg/generated \
+    --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
+    --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
