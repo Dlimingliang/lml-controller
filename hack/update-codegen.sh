@@ -34,13 +34,18 @@ SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 source "${GOPATH}/src/github.com/Dlimingliang/code-generator/kube_codegen.sh"
 
 kube::codegen::gen_helpers \
+    # 与go.mod 里面的module相同
     --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
+    # 设置到src的上一级,连接--input-pkg-root 组成目录
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
 
 kube::codegen::gen_client \
     --with-watch \
+    # 与go.mod 里面的module相同
     --input-pkg-root github.com/Dlimingliang/lml-controller/pkg/apis \
+    # 配置生成目录,也以go.mod开头
     --output-pkg-root github.com/Dlimingliang/lml-controller/pkg/generated \
+     # 设置到src的上一级,连接--input-pkg-root 组成目录
     --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../.." \
     --boilerplate "${SCRIPT_ROOT}/hack/boilerplate.go.txt"
