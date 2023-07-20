@@ -57,7 +57,7 @@ func (in *Lml) DeepCopyObject() runtime.Object {
 func (in *LmlList) DeepCopyInto(out *LmlList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]Lml, len(*in))
