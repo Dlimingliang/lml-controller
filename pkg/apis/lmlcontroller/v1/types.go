@@ -13,7 +13,6 @@ type Lml struct {
 
 type LmlSpec struct {
 	DeploymentName string `json:"deploymentName"`
-	Image          string `json:"image"`
 	Replicas       *int32 `json:"replicas"`
 }
 
