@@ -96,6 +96,13 @@ func NewController(
 	lmlInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
 		AddFunc: controller.enqueueLml,
 		UpdateFunc: func(oldObj, newObj interface{}) {
+			newLml := newObj.(*lmlv1.Lml)
+			oldLml := oldObj.(*lmlv1.Lml)
+			if newLml.ResourceVersion == oldLml.ResourceVersion {
+				// Periodic resync will send update events for all known Deployments.
+				// Two different versions of the same Deployment will always have different RVs.
+				return
+			}
 			controller.enqueueLml(newObj)
 		},
 		//DeleteFunc: nil,
